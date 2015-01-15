@@ -9,7 +9,7 @@
 
 	<% data.forEach(function(d){ %>
 		<ul>
-		<li> <%= d.name %> </li>
+		<li> <a href='/works/<%= d.name %>'><%= d.name %></a> </li>
 		<li> <%= d.title %> </li>
 		<li> <%= d.description %> </li>	
 		</ul>

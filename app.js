@@ -7,7 +7,8 @@ bodyParser = require('body-parser'),
 mongoose = require('mongoose'),
 router = express.Router(),
  index = require('./routes/index').router,
- model =require('./models/works')
+ model =require('./models/works'),
+ multer = require('multer');
 
 
 
@@ -24,6 +25,27 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(multer(
+	{
+		dest: './uploads/',
+		rename: function(fieldname,filename){
+			return filename+Date.now();
+		},
+		onFileUploadStart: function(file){
+			console.log(file.originalname+'is starting...')
+		},
+		onFileUploadComplete: function(file){
+			console.log(file.fieldname+'upload to'+file.path);
+			console.log(file.name);
+			done = true;
+		}
+
+}))
+
+
+
+
 
 app.use('/',index);
 

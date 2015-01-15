@@ -16,7 +16,28 @@ router.use(function(req,res,next){
 router.get('/works/create/',function(req,res){
 	res.render('newWork');
 });
+
+
+
+
+router.get('/photo',function(req,res){
+	res.render('photo');
+});
+
+
+
+router.post('/photo',function(req,res){
+	if(done == true){
+		console.log(req.files);
+		res.end("file uploaded");
+	}
+});
+
+
 router.post('/works/create',function(req,res) {
+		
+		
+
 		mongoose.model('Works').create({
 		name: req.body.name, 
 		title: req.body.title, 
@@ -24,6 +45,7 @@ router.post('/works/create',function(req,res) {
 	
 		},function(err,thor){
 				if(err) res.send(err);
+
 				else res.redirect('/works');
 		});
 })
@@ -34,6 +56,17 @@ router.get('/works',function(req,res){
 	});
 	
 	});
+
+router.get('/works/:name',function(req,res){
+	mongoose.model('Works').find({name: req.params.name},function(err,doc){
+		if(err) console.log(err);
+				else console.log(doc);
+		res.render('workPage',{data: doc});
+
+	});
+
+
+});
 	
 
 
