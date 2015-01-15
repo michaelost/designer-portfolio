@@ -4,7 +4,8 @@ var workSchema = new mongoose.Schema({
 
 	title: String,
 	name: String,
-	description: String
+	description: String,
+	image: String
 });
 
 mongoose.model('Works',workSchema);

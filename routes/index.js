@@ -13,18 +13,17 @@ router.use(function(req,res,next){
 });
 
 
+router.get('/',function(req,res){
+	res.render('index')
+});
+
 router.get('/works/create/',function(req,res){
 	res.render('newWork');
 });
 
-
-
-
 router.get('/photo',function(req,res){
 	res.render('photo');
 });
-
-
 
 router.post('/photo',function(req,res){
 	if(done == true){
@@ -35,17 +34,12 @@ router.post('/photo',function(req,res){
 
 
 router.post('/works/create',function(req,res) {
-		
-		
-
 		mongoose.model('Works').create({
 		name: req.body.name, 
 		title: req.body.title, 
 		description: req.body.descr
-	
 		},function(err,thor){
 				if(err) res.send(err);
-
 				else res.redirect('/works');
 		});
 })
@@ -68,8 +62,6 @@ router.get('/works/:name',function(req,res){
 
 });
 	
-
-
 router.get('/works/create',function(req,res,next){
 	works.save(
 		{
@@ -81,6 +73,5 @@ router.get('/works/create',function(req,res,next){
 	});
 	next();
 });
-
 
 module.exports.router = router;
