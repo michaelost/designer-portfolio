@@ -42,9 +42,19 @@ router.post('/login',function(req,res){
 
 
 
+
+
+
+
 router.get('/',function(req,res){
 	res.render('index')
 });
+
+router.get('/logout',function(req,res){
+	req.session = null;
+	res.redirect('/');
+});
+
 
 router.get('/works/create/',function(req,res){
 	
