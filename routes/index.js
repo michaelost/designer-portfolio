@@ -5,7 +5,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var works = require('../models/works');
-
+var admin = require('../models/admin');
 router.use(function(req,res,next){
 	console.log(req.method,req.url);
 
@@ -13,12 +13,66 @@ router.use(function(req,res,next){
 });
 
 
+router.get('/login',function(req,res){
+	
+	res.render('login');
+	console.log('dasads');
+	mongoose.model('Admin').find({},function(err,data){
+		console.log(data);
+	});
+
+
+});
+
+router.post('/login',function(req,res){
+	mongoose.model('Admin').findOne({login: req.body.login},function(err,data){
+		
+		if (data.password === req.body.password) {
+			req.session.user = data;
+			res.redirect('/works');
+			
+		}
+			else {res.render('login');}
+		
+		
+		
+
+	});
+});
+
+
+
 router.get('/',function(req,res){
 	res.render('index')
 });
 
 router.get('/works/create/',function(req,res){
-	res.render('newWork');
+	
+
+	if(req.session && req.session.user){
+
+	mongoose.model('Admin').findOne({login: req.session.user.login},function(err,data){
+		if (!data){
+				res.session.reset();
+				res.redirect('/login');
+				
+		}
+
+		else{
+			res.locals.user = data;
+			res.render('newWork');
+		}
+		
+		
+	});
+
+	} else {
+		res.redirect('/login');
+	}
+
+	
+	
+
 });
 
 router.get('/photo',function(req,res){

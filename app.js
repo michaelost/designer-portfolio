@@ -8,8 +8,8 @@ mongoose = require('mongoose'),
 router = express.Router(),
  index = require('./routes/index').router,
  model =require('./models/works'),
- multer = require('multer');
-
+ multer = require('multer'),
+session = require('cookie-session');
 
 
 var app = express();
@@ -43,7 +43,12 @@ app.use(multer(
 
 }))
 
-
+app.use(session({
+    cookieName: 'name',
+    secret: 'dasadssdfdasfsadfafadsfsad',
+    duration: 3 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000 
+}));
 
 
 
