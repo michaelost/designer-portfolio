@@ -29,7 +29,7 @@ router.post('/login',function(req,res){
 		
 		if (data.password === req.body.password) {
 			req.session.user = data;
-			res.redirect('/works');
+			res.redirect('/admin');
 			
 		}
 			else {res.render('login');}
@@ -41,7 +41,29 @@ router.post('/login',function(req,res){
 });
 
 
+router.get('/admin',function(req,res){
+	
+	if(req.session && req.session.user){
 
+	mongoose.model('Admin').findOne({login: req.session.user.login},function(err,data){
+		if (!data){
+				res.session.reset();
+				res.redirect('/login');
+				
+		}
+
+		else{
+			res.locals.user = data;
+			res.render('admin');
+		}
+		
+		
+	});
+
+	} else {
+		res.redirect('/login');
+	}
+});
 
 
 
@@ -56,7 +78,7 @@ router.get('/logout',function(req,res){
 });
 
 
-router.get('/works/create/',function(req,res){
+router.get('/works/create',function(req,res){
 	
 
 	if(req.session && req.session.user){
@@ -104,7 +126,7 @@ router.post('/works/create',function(req,res) {
 		description: req.body.descr
 		},function(err,thor){
 				if(err) res.send(err);
-				else res.redirect('/works');
+				else res.redirect('/works/create');
 		});
 })
 
